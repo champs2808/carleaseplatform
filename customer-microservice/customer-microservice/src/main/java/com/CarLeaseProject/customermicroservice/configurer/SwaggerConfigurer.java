@@ -29,7 +29,7 @@ public class SwaggerConfigurer {
   private ApiInfo apiInfo() {
     return new ApiInfoBuilder()
         .title("Customer microservice")
-        .description("microservice for customer")
+        .description("A REST based application for broker to perform CRUD operation on customer db")
         .termsOfServiceUrl("")
         .build();
   }

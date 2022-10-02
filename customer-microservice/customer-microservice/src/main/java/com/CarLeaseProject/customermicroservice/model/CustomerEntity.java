@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class CustomerEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(name = "NAME")
@@ -57,7 +57,7 @@ public class CustomerEntity {
     this.street = street;
   }
 
-  public int getHouse_number() {
+  public Integer getHouse_number() {
     return house_number;
   }
 

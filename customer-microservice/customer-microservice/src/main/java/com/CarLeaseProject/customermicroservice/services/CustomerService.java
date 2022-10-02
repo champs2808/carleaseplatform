@@ -14,9 +14,8 @@ public class CustomerService {
 
   @Autowired private CustomerRepository customerRepository;
 
-  public  CustomerService(CustomerRepository customerRepository)
-  {
-    this.customerRepository=customerRepository;
+  public CustomerService(CustomerRepository customerRepository) {
+    this.customerRepository = customerRepository;
   }
 
   public List<CustomerEntity> getAllCustomers(String emailAddress) {
@@ -53,13 +52,27 @@ public class CustomerService {
 
     CustomerEntity customerEntity = customerRepository.findByEmailAddress(email_address);
     if (customerEntity != null) {
-      customerEntity.setName(customer.getName());
-      customerEntity.setStreet(customer.getStreet());
-      customerEntity.setHouse_number(customer.getHouse_number());
-      customerEntity.setZipcode(customer.getZipcode());
-      customerEntity.setPlace(customer.getPlace());
-      customerEntity.setEmailAddress(customer.getEmailAddress());
-      customerEntity.setPhone_number(customer.getPhone_number());
+      if (customer.getName() != null) {
+        customerEntity.setName(customer.getName());
+      }
+      if (customer.getStreet() != null) {
+        customerEntity.setStreet(customer.getStreet());
+      }
+      if (customer.getHouse_number() != null) {
+        customerEntity.setHouse_number(customer.getHouse_number());
+      }
+      if (customer.getZipcode() != null) {
+        customerEntity.setZipcode(customer.getZipcode());
+      }
+      if (customer.getPlace() != null) {
+        customerEntity.setPlace(customer.getPlace());
+      }
+      if (customer.getEmailAddress() != null) {
+        customerEntity.setEmailAddress(email_address);
+      }
+      if (customer.getPhone_number() != null) {
+        customerEntity.setPhone_number(customer.getPhone_number());
+      }
       customerRepository.save(customerEntity);
     }
     return customerEntity;
@@ -68,8 +81,8 @@ public class CustomerService {
   @Transactional
   public void deleteByEmailAddress(String email_address) {
     customerRepository.deleteByEmailAddress(email_address);
-
   }
+
   @Transactional
   public void deleteCustomerById(Long id) {
     customerRepository.deleteById(id);

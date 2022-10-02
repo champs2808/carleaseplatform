@@ -2,30 +2,34 @@ package com.CarLeaseProject.customermicroservice.controller;
 
 import com.CarLeaseProject.customermicroservice.model.CustomerEntity;
 import com.CarLeaseProject.customermicroservice.services.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/api")
-
 public class CustomerController {
 
   @Autowired private CustomerService customerService;
 
+  Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
   /**
-   *
    * @param emailAddress
-   * @return
+   * @return all customer when emailAddress is not provided, customer with specified email address
+   *     when emailAddress is provided, no content when emailAddress is not present in DB
    */
   @GetMapping("/customers")
   public ResponseEntity<List<CustomerEntity>> getAllCustomers(
       @RequestParam(required = false) String emailAddress) {
+    logger.info("Received request for fetching all customers with email :{}", emailAddress);
     try {
       List<CustomerEntity> customerEntityList = customerService.getAllCustomers(emailAddress);
       if (customerEntityList.isEmpty()) {
@@ -38,12 +42,12 @@ public class CustomerController {
   }
 
   /**
-   *
    * @param id
-   * @return
+   * @return customer with provided id
    */
   @GetMapping("/customers/{id}")
   public ResponseEntity<CustomerEntity> getCustomersById(@PathVariable("id") Long id) {
+    logger.info("Received request for fetching customer with id :{}", id);
     try {
       Optional<CustomerEntity> customer = customerService.getCustomersById(id);
       if (customer.isPresent()) {
@@ -57,12 +61,12 @@ public class CustomerController {
   }
 
   /**
-   *
    * @param customer
-   * @return
+   * @return creates customer with specified details
    */
   @PostMapping("/customers")
   public ResponseEntity<CustomerEntity> createCustomer(@RequestBody CustomerEntity customer) {
+    logger.info("Received request for creating customer with details :{}", customer);
     try {
       CustomerEntity customerEntity = customerService.createCustomer(customer);
       return new ResponseEntity<>(customerEntity, HttpStatus.CREATED);
@@ -72,16 +76,19 @@ public class CustomerController {
   }
 
   /**
-   *
-   * @param email_address
+   * @param email_Address
    * @param customer
-   * @return
+   * @return updates specific customer
    */
-  @PutMapping("/customers/update/{email_address}")
+  @PutMapping("/customers/update/{emailAddress}")
   public ResponseEntity<CustomerEntity> updateCustomer(
-      @RequestBody String email_address, CustomerEntity customer) {
+      @RequestBody String email_Address, CustomerEntity customer) {
+    logger.info(
+        "Received request for updating customer with details emailAddress:{}, customer:{}",
+        email_Address,
+        customer);
     try {
-      CustomerEntity customerEntity = customerService.updateCustomer(email_address, customer);
+      CustomerEntity customerEntity = customerService.updateCustomer(email_Address, customer);
       if (customerEntity != null) {
         return new ResponseEntity<>(customerEntity, HttpStatus.OK);
       } else {
@@ -93,15 +100,16 @@ public class CustomerController {
   }
 
   /**
-   *
-   * @param email_address
-   * @return
+   * @param emailAddress
+   * @return delete customer with specified emailAddress
    */
-  @DeleteMapping("/customers/delete/{email_address}")
+  @Transactional
+  @DeleteMapping("/customers/delete/{emailAddress}")
   public ResponseEntity<HttpStatus> deleteCustomerByEmailAddress(
-      @RequestBody String email_address) {
+      @PathVariable String emailAddress) {
+    logger.info("Received request for deleting customer with emailAddress :{}", emailAddress);
     try {
-      customerService.deleteByEmailAddress(email_address);
+      customerService.deleteByEmailAddress(emailAddress);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,12 +117,13 @@ public class CustomerController {
   }
 
   /**
-   *
    * @param id
-   * @return
+   * @return delete customer with provided id
    */
+  @Transactional
   @DeleteMapping("/customers/deleteById/{id}")
   public ResponseEntity<HttpStatus> deleteCustomerById(@PathVariable("id") Long id) {
+    logger.info("Received request for deleting customer with id :{}", id);
     try {
       customerService.deleteCustomerById(id);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
