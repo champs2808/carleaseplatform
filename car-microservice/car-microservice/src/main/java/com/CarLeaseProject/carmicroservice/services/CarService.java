@@ -22,23 +22,26 @@ public class CarService {
     return carRepository.findById(id);
   }
 
-  public List<CarEntity> getCarByModelAndVersion(String model, String version) {
-    return carRepository.findByModelAndVersion(model,version);
+  public CarEntity getCarByModelAndVersion(String model, String version) {
+    return carRepository.findByModelAndVersion(model, version);
   }
 
   public CarEntity createCar(CarEntity car) {
-    return carRepository.save(
-        new CarEntity(
-            car.getMake(),
-            car.getModel(),
-            car.getVersion(),
-            car.getNumberOfDoors(),
-            car.getCo2Emission(),
-            car.getGrossPrice(),
-            car.getNettPrice()));
+    if (carRepository.findByModelAndVersion(car.getModel(), car.getVersion()) == null) {
+      return carRepository.save(
+          new CarEntity(
+              car.getMake(),
+              car.getModel(),
+              car.getVersion(),
+              car.getNumberOfDoors(),
+              car.getCo2Emission(),
+              car.getGrossPrice(),
+              car.getNettPrice()));
+    }
+    return carRepository.findByModelAndVersion(car.getModel(), car.getVersion());
   }
 
-  public CarEntity updateCar(Long id, CarEntity car){
+  public CarEntity updateCar(Long id, CarEntity car) {
     Optional<CarEntity> _car = carRepository.findById(id);
     if (_car.isPresent()) {
       CarEntity carEntity = _car.get();
@@ -50,14 +53,12 @@ public class CarService {
       carEntity.setGrossPrice(car.getGrossPrice());
       carEntity.setNettPrice(car.getNettPrice());
       return carRepository.save(carEntity);
-      }
+    }
     return null;
   }
 
   @Transactional
-  public void deleteById(Long id){
+  public void deleteById(Long id) {
     carRepository.deleteById(id);
   }
-
-
 }

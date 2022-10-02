@@ -15,22 +15,23 @@ import java.io.PrintWriter;
 @Component
 public class SwaggerConfigurer {
 
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .useDefaultResponseMessages(false)
-                .ignoredParameterTypes(PrintWriter.class)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .useDefaultResponseMessages(false)
+        .ignoredParameterTypes(PrintWriter.class)
+        .apiInfo(apiInfo())
+        .select()
+        .apis(RequestHandlerSelectors.any())
+        .paths(PathSelectors.any())
+        .build();
+  }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Car microservice")
-                .description("microservice for car")
-                .termsOfServiceUrl("")
-                .build();
-    }
+  private ApiInfo apiInfo() {
+    return new ApiInfoBuilder()
+        .title("Car microservice")
+        .description(
+            "A REST based application for company employees to perform CRUD operation on car db")
+        .termsOfServiceUrl("")
+        .build();
+  }
 }
