@@ -22,7 +22,7 @@ The service is a basic Car-lease Platform API service. It uses an in-memory data
 
 Each microservice can have a res controller which can either be invoked using swagger-ui or using postman.Each microservice can be replicated on multiple ports. Details about individual microservice is as follows-
 
-*customer-microservice -- This microservice is a REST API used by broker to maintain customer database. Broker can perform CRUD operation on the repository.In this microservice intial data is loaded on run-time using data.sql file.
+* customer-microservice -- This microservice is a REST API used by broker to maintain customer database. Broker can perform CRUD operation on the repository.In this microservice intial data is loaded on run-time using data.sql file.
 This microservice is configured to run on port-8000 and can be accessed(on localhost) via swagger-ui as well using URL http://localhost:8000/swagger-ui.html. This microservice has following mappings-
 
 GET ```/api/customers``` Fetches all customer records present in Database.
@@ -70,7 +70,7 @@ PUT ```/api/customers/update/{emailAddress}``` - Updates record with provided em
  Reponse-200 OK
  Content- Updated Customer record
  
- *car-microservice -- This microservice is a REST API used by company employees to maintain car database. Employyes can perform CRUD operation on the repository.In this microservice intial data is loaded on run-time using data.sql file.
+ * car-microservice -- This microservice is a REST API used by company employees to maintain car database. Employyes can perform CRUD operation on the repository.In this microservice intial data is loaded on run-time using data.sql file.
 This microservice is configured to run on port-8004 and can be accessed(on localhost) via swagger-ui as well using URL http://localhost:8004/swagger-ui.html. This microservice has following mappings-
  
  GET ```/api/cars``` Fetches all car record present in car database.
@@ -119,7 +119,7 @@ POST ```/api/carscreateCar``` Creates car entry in Database.
  Content-Car
  
  
-  *car-lease-service -- This microservice is a REST API used by broker to calculate leaserate. EThis microservice is configured to run on port-8008 and can be accessed(on localhost) via swagger-ui as well using URL http://localhost:8008/swagger-ui.html. This microservice has following mappings-
+  * car-lease-service -- This microservice is a REST API used by broker to calculate leaserate. EThis microservice is configured to run on port-8008 and can be accessed(on localhost) via swagger-ui as well using URL http://localhost:8008/swagger-ui.html. This microservice has following mappings-
   
   GET ```/api/calculatelease```
   
